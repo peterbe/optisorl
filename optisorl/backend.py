@@ -28,9 +28,9 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         )
         image_path = os.path.join(settings.MEDIA_ROOT, thumbnail.name)
         if os.path.isfile(image_path) and image_path.endswith('.png'):
-            self._optimize_png(image_path)
+            self.optimize_png(image_path)
 
-    def _optimize_png(self, path):
+    def optimize_png(self, path):
         binary_location = getattr(
             settings,
             'PNGQUANT_LOCATION',

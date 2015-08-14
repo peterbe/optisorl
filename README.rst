@@ -25,5 +25,50 @@ attempts to do a good job of optimizing the generated thumbnail just
 right after it has been written to disk.
 
 
+Optimizing PNGs
+---------------
+
+``optisorl`` uses a binary called `pngquant <https://pngquant.org/>`_
+which is a command line tool that do lossy compression of PNG images
+and supports alpha transparency. ``pngquant`` is
+`BSD licensed. It's easy to install on most systems. For example
+``brew install pngquant`` or ``apt-get install pngquant``.
+
+What happens is that when ``optisorl`` notices that a thumbnail was
+created it (and stored in ``MEDIA_ROOT``) it then takes that file and
+executes ``pngquant`` something like this:
+
+::
+
+    pngquant -o /path/file.tmp.png --skip-if-larger -- /path/file.png
+
+Note the ``--skip-if-larger`` which means that if the thumbnail is really
+really small already the resulting optimization might not be any better
+and it thus omits doing an optimization.
+
+If you want to override the location of the executable ``pngquant`` you
+can set this setting for example:
+
+::
+
+    # in settings.py or equivalent
+
+    PNGQUANT_LOCATION = '/opt/special/bin/pngquant2.0'
+
+
+Limitations
+-----------
+
+Help is most welcome. At the moment...
+
+* Does not support S3 storage
+
+* Unable to NOT optimize images
+
+* Not possible to override certain ``pngquant`` parameters
+
+* Only able to optimize ``.png`` thumbnails
+
+
 .. |Travis| image:: https://travis-ci.org/peterbe/optisorl.png?branch=master
    :target: https://travis-ci.org/peterbe/optisorl
