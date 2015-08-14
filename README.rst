@@ -49,7 +49,7 @@ and it thus omits doing an optimization.
 If you want to override the location of the executable ``pngquant`` you
 can set this setting for example:
 
-::
+.. code:: python
 
     # in settings.py or equivalent
 
