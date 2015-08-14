@@ -31,7 +31,7 @@ Optimizing PNGs
 ``optisorl`` uses a binary called `pngquant <https://pngquant.org/>`_
 which is a command line tool that do lossy compression of PNG images
 and supports alpha transparency. ``pngquant`` is
-`BSD licensed. It's easy to install on most systems. For example
+BSD licensed. It's easy to install on most systems. For example
 ``brew install pngquant`` or ``apt-get install pngquant``.
 
 What happens is that when ``optisorl`` notices that a thumbnail was
