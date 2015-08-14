@@ -1,0 +1,4 @@
+*.pyc
+.eggs/
+.tox/
+optisorl.egg-info/
