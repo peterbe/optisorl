@@ -10,3 +10,10 @@ install:
 - pip install tox
 script:
 - tox -e $TOX_ENV
+deploy:
+  provider: pypi
+  user: peterbe
+  password:
+    secure: Gi/0fC3e5W4uepn/Mqdub5DTMprOcdbOuadrVk+HIq3iMvIx2qFymWtJxr+VwDpZyWNacsEQlWyqE8CMHzU+Ic3ooqG+fcHYvO9RRErLCyz58TCuDRP2Q+vAWgbJ0tDR2dD6zgQ+TM+zot0yOghPycPjyhrN/RuNsIGlPToGSMijEQOCmCKbLyB9cUM6j2GnHy6IUDhkjlLSBIM7TCFhCNvgN7mzM4l0XrMzQ8koEQr6FXzqlW+yaN0Zxu6W5Jx5O2LhU3kk7WkypXiMXLJ06+EqnoZ/VB8OxSb2XF+X76cbV3eh5QTC6WObv431fWg+srPe8gjcn4ZsNfiGsy2aCDnOGvuswrO1ROWAW6GP/PAuE9UMZwwfrzH8blb2HEOQyXSjb5m1ieHxR8hMdqM97KBgjj0530IV70SHoJhTvSeUSsaEaCpayolooKVV0yVbr8gQwLTSEcqOIbWJ/9MvyboEx23Q1zbmTeJb4+AeX1qfCUTIMrlXGiCchSPPckW+ih04h+UtFz4LPaaE0ldjFGJ4aVQOZzpfgQtxbfwx70aunU8HKKt3xOsNmx9tQvT2qUNrXKXXnhpYUHXUvhP8YiGPNppNoaTenkenQ+SQZe/ZlREkCqRy7MkgNJ2dyTLNRjadl/Xh1oEhbKNLo2k93y7mJpwVzzcnGJ9utKI8Ovw=
+  on:
+    repo: peterbe/optisorl
