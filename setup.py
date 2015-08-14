@@ -35,7 +35,7 @@ def find_version(*file_paths):
 
 setup(
     name='optisorl',
-    version=find_version('optsorl', '__init__.py'),
+    version=find_version('optisorl', '__init__.py'),
     url='https://github.com/peterbe/optisorl',
     author='Peter Bengtsson',
     author_email='mail@peterbe.com',
