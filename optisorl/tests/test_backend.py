@@ -1,4 +1,6 @@
 import os
+import tempfile
+import shutil
 
 from django.conf import settings
 from django.test import TestCase
@@ -20,6 +22,15 @@ sample_image_path = os.path.join(
 
 
 class TestOptimizingThumbnailBackend(TestCase):
+
+    def setUp(self):
+        super(TestOptimizingThumbnailBackend, self).setUp()
+        self.tmp_directory = tempfile.mkdtemp()
+        settings.MEDIA_ROOT = self.tmp_directory
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp_directory)
+        super(TestOptimizingThumbnailBackend, self).tearDown()
 
     def test_create_thumbnail_with_pngquant_location(self):
         thumbnail = ImageFile(
