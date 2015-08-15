@@ -8,11 +8,10 @@ env:
 - TOX_ENV=py34_dj18
 
 install:
+- pip install twine
 - pip install tox
 script:
 - tox -e $TOX_ENV
-before_deply:
-- pip install twine
 deploy:
   provider: pypi
   edge: true
