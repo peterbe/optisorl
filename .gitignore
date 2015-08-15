@@ -3,3 +3,4 @@
 .tox/
 optisorl.egg-info/
 dist/
+build/
