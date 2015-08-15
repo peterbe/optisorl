@@ -21,3 +21,6 @@ deploy:
   on:
     repo: peterbe/optisorl
   distributions: "sdist bdist_wheel"
+notifications:
+  email:
+    on_success: never
