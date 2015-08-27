@@ -15,32 +15,42 @@ fake_pngquant_path = os.path.join(
     os.path.dirname(__file__),
     'fake-pngquant.py'
 )
-sample_image_path = os.path.join(
+fake_gifsicle_path = os.path.join(
+    os.path.dirname(__file__),
+    'fake-gifsicle.py'
+)
+sample_png_path = os.path.join(
     os.path.dirname(__file__),
     'joyofcoding.png'
+)
+sample_gif_path = os.path.join(
+    os.path.dirname(__file__),
+    'video.gif'
 )
 
 
 class TestOptimizingThumbnailBackend(TestCase):
 
-    def setUp(self):
-        super(TestOptimizingThumbnailBackend, self).setUp()
-        self.tmp_directory = tempfile.mkdtemp()
-        settings.MEDIA_ROOT = self.tmp_directory
+    @classmethod
+    def setUpClass(cls):
+        super(TestOptimizingThumbnailBackend, cls).setUpClass()
+        cls.tmp_directory = tempfile.mkdtemp()
+        settings.MEDIA_ROOT = cls.tmp_directory
 
-    def tearDown(self):
-        shutil.rmtree(self.tmp_directory)
-        super(TestOptimizingThumbnailBackend, self).tearDown()
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp_directory)
+        super(TestOptimizingThumbnailBackend, cls).tearDownClass()
 
     def test_create_thumbnail_with_pngquant_location(self):
         thumbnail = ImageFile(
-            os.path.basename(sample_image_path),
+            os.path.basename(sample_png_path),
             default.storage
         )
-        size_before = os.stat(sample_image_path).st_size
+        size_before = os.stat(sample_png_path).st_size
 
         with self.settings(PNGQUANT_LOCATION=fake_pngquant_path):
-            with open(sample_image_path, 'rb') as source:
+            with open(sample_png_path, 'rb') as source:
                 source_image = default.engine.get_image(source)
             backend = OptimizingThumbnailBackend()
             backend._create_thumbnail(
@@ -51,7 +61,31 @@ class TestOptimizingThumbnailBackend(TestCase):
             )
         destination = os.path.join(
             settings.MEDIA_ROOT,
-            os.path.basename(sample_image_path)
+            os.path.basename(sample_png_path)
+        )
+        size_after = os.stat(destination).st_size
+        self.assertTrue(size_after < size_before)
+
+    def test_create_thumbnail_with_gifsicle_location(self):
+        thumbnail = ImageFile(
+            os.path.basename(sample_gif_path),
+            default.storage
+        )
+        size_before = os.stat(sample_gif_path).st_size
+
+        with self.settings(GIFSICLE_LOCATION=fake_gifsicle_path):
+            with open(sample_gif_path, 'rb') as source:
+                source_image = default.engine.get_image(source)
+            backend = OptimizingThumbnailBackend()
+            backend._create_thumbnail(
+                source_image,
+                '100x100',
+                OptimizingThumbnailBackend.default_options,
+                thumbnail
+            )
+        destination = os.path.join(
+            settings.MEDIA_ROOT,
+            os.path.basename(sample_gif_path)
         )
         size_after = os.stat(destination).st_size
         self.assertTrue(size_after < size_before)

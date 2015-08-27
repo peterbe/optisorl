@@ -56,6 +56,27 @@ can set this setting for example:
     PNGQUANT_LOCATION = '/opt/special/bin/pngquant2.0'
 
 
+Optimizing GIFs
+---------------
+
+``optisorl`` uses `gifsicle <http://www.lcdf.org/gifsicle/>`_ with
+level 3 optimization. ``gifsicle`` is GPL licensed but use is not
+restricted by a license. To install it use ``brew install gifsicle``
+or ``apt-get install gifsicle``.
+
+To override where the ``gifsicle`` executable is located you can set
+in your settings:
+
+.. code:: python
+
+    # in settings.py or equivalent
+
+    GIFSICLE_LOCATION = '/opt/special/bin/gifsicle'
+
+
+If you want to disable all optimization of GIFs just set
+``GIFSICLE_LOCATION`` (in your ``settings.py``) to ``None`` or ``False``.
+
 Limitations
 -----------
 
