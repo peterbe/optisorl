@@ -84,11 +84,11 @@ Help is most welcome. At the moment...
 
 * Does not support S3 storage
 
-* Unable to NOT optimize images
+* Unable to NOT optimize images in run-time
 
 * Not possible to override certain ``pngquant`` parameters
 
-* Only able to optimize ``.png`` thumbnails
+* Not possible to override certain ``gifsicle`` parameters
 
 
 .. |Travis| image:: https://travis-ci.org/peterbe/optisorl.png?branch=master
