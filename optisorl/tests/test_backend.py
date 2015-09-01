@@ -19,6 +19,10 @@ fake_gifsicle_path = os.path.join(
     os.path.dirname(__file__),
     'fake-gifsicle.py'
 )
+fake_mozjpeg_path = os.path.join(
+    os.path.dirname(__file__),
+    'fake-mozjpeg.py'
+)
 sample_png_path = os.path.join(
     os.path.dirname(__file__),
     'joyofcoding.png'
@@ -26,6 +30,10 @@ sample_png_path = os.path.join(
 sample_gif_path = os.path.join(
     os.path.dirname(__file__),
     'video.gif'
+)
+sample_jpg_path = os.path.join(
+    os.path.dirname(__file__),
+    'peterbe.jpg'
 )
 
 
@@ -86,6 +94,30 @@ class TestOptimizingThumbnailBackend(TestCase):
         destination = os.path.join(
             settings.MEDIA_ROOT,
             os.path.basename(sample_gif_path)
+        )
+        size_after = os.stat(destination).st_size
+        self.assertTrue(size_after < size_before)
+
+    def test_create_thumbnail_with_mozjpeg_location(self):
+        thumbnail = ImageFile(
+            os.path.basename(sample_jpg_path),
+            default.storage
+        )
+        size_before = os.stat(sample_jpg_path).st_size
+
+        with self.settings(MOZJPEG_LOCATION=fake_mozjpeg_path):
+            with open(sample_jpg_path, 'rb') as source:
+                source_image = default.engine.get_image(source)
+            backend = OptimizingThumbnailBackend()
+            backend._create_thumbnail(
+                source_image,
+                '100x100',
+                OptimizingThumbnailBackend.default_options,
+                thumbnail
+            )
+        destination = os.path.join(
+            settings.MEDIA_ROOT,
+            os.path.basename(sample_jpg_path)
         )
         size_after = os.stat(destination).st_size
         self.assertTrue(size_after < size_before)

@@ -77,6 +77,30 @@ in your settings:
 If you want to disable all optimization of GIFs just set
 ``GIFSICLE_LOCATION`` (in your ``settings.py``) to ``None`` or ``False``.
 
+
+Optimizing JPEGs
+----------------
+
+``optisorl`` uses `mozjpeg <https://github.com/mozilla/mozjpeg>`_ to
+optimize JPEGs. It's a great fit because it almost never reduces
+the quality such that human eyes can notice it. Especially when the
+thumbnails are relatively small. The command that we use to execute
+``mozjpeg`` looks like this::
+
+    mozjpeg -outfile DESTINATION -optimise -copy none SOURCE
+
+You can override where the executable is by setting:
+
+.. code:: python
+
+    # in settings.py or equivalent
+
+    MOZJPEG_LOCATION = '/my/bin/mozjpeg'
+
+For an example of what kind of results you can get with ``mozjpeg``
+see this blog post:
+`Examples of mozjpeg savings <http://www.peterbe.com/plog/examples-of-mozjpeg-savings>`_
+
 Limitations
 -----------
 
@@ -89,6 +113,8 @@ Help is most welcome. At the moment...
 * Not possible to override certain ``pngquant`` parameters
 
 * Not possible to override certain ``gifsicle`` parameters
+
+* Not possible to override certain ``mozjpeg`` parameters
 
 
 .. |Travis| image:: https://travis-ci.org/peterbe/optisorl.png?branch=master
