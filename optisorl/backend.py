@@ -32,6 +32,8 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
                 self.optimize_png(image_path)
             elif image_path.lower().endswith('.gif'):
                 self.optimize_gif(image_path)
+            elif image_path.lower().endswith('.jpg'):
+                self.optimize_jpg(image_path)
 
     def optimize_png(self, path):
         binary_location = getattr(
@@ -89,6 +91,42 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
             binary_location,
             '-O3', path,
             '-o', tmp_path,
+        ]
+        time_before = time.time()
+        out, err = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        ).communicate()
+        time_after = time.time()
+        if not os.path.isfile(tmp_path):
+            return
+        os.rename(tmp_path, path)
+        size_after = os.stat(path).st_size
+        logger.info(
+            'Reduced %s from %d to %d (took %.4fs)' % (
+                os.path.basename(path),
+                size_before,
+                size_after,
+                time_after - time_before
+            )
+        )
+
+    def optimize_jpg(self, path):
+        binary_location = getattr(
+            settings,
+            'MOZJPEG_LOCATION',
+            'mozjpeg'
+        )
+        if not binary_location:
+            # it's probably been deliberately disabled
+            return
+        tmp_path = path.lower().replace('.jpg', '.tmp.jpg')
+        size_before = os.stat(path).st_size
+        command = [
+            binary_location,
+            '-outfile', tmp_path,
+            '-optimise', path,
         ]
         time_before = time.time()
         out, err = subprocess.Popen(
