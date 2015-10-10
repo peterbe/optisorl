@@ -45,7 +45,7 @@ setup(
     license='BSD',
     include_package_data=True,
     test_suite='runtests.runtests',
-    tests_require=['sorl-thumbnail'],
+    tests_require=['sorl-thumbnail', 'mock'],
     zip_safe=False,
     classifiers=[
         'License :: OSI Approved :: BSD License',
