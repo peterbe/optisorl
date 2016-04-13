@@ -29,11 +29,11 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         image_path = os.path.join(settings.MEDIA_ROOT, thumbnail.name)
         if os.path.isfile(image_path):
             if image_path.lower().endswith('.png'):
-                self.optimize_png(image_path)
+                return self.optimize_png(image_path)
             elif image_path.lower().endswith('.gif'):
-                self.optimize_gif(image_path)
+                return self.optimize_gif(image_path)
             elif image_path.lower().endswith('.jpg'):
-                self.optimize_jpg(image_path)
+                return self.optimize_jpg(image_path)
 
     def optimize_png(self, path):
         binary_location = getattr(
@@ -75,6 +75,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
                 time_after - time_before
             )
         )
+        return True  # it worked
 
     def optimize_gif(self, path):
         binary_location = getattr(
@@ -111,6 +112,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
                 time_after - time_before
             )
         )
+        return True  # it worked
 
     def optimize_jpg(self, path):
         binary_location = getattr(
@@ -147,3 +149,4 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
                 time_after - time_before
             )
         )
+        return True  # it worked
