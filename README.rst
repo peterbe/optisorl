@@ -1,7 +1,7 @@
 optisorl
 ========
 
-Copyright Peter Bengtsson, mail@peterbe.com, 2015
+Copyright Peter Bengtsson, mail@peterbe.com, 2015-2016
 
 |Travis|
 
