@@ -99,8 +99,8 @@ You can override where the executable is by setting:
 
 For an example of what kind of results you can get with ``mozjpeg``
 see this blog post:
-`Examples of mozjpeg savings <http://www.peterbe.com/plog/examples-of-mozjpeg-savings>`_.
-Also see blog post `mozjpeg installation and sample <http://www.peterbe.com/plog/mozjpeg-installation-and-sample>`_.
+`Examples of mozjpeg savings <https://www.peterbe.com/plog/examples-of-mozjpeg-savings>`_.
+Also see blog post `mozjpeg installation and sample <https://www.peterbe.com/plog/mozjpeg-installation-and-sample>`_.
 
 Limitations
 -----------
