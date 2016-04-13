@@ -35,5 +35,6 @@ PNG = (
 if __name__ == '__main__':
     args = sys.argv[1:]
     destination = args[args.index('-o') + 1]
+    import os
     with open(destination, 'wb') as f:
         f.write(base64.b64decode(PNG))

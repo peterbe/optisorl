@@ -1,6 +1,7 @@
 import os
 import tempfile
 import shutil
+import random
 
 import mock
 
@@ -39,19 +40,43 @@ sample_jpg_path = os.path.join(
 )
 
 
+def get_temp_dir():
+    # The reason we can't use `tempfile.mkdtemp()` is because of Travis.
+    # Locally, on my OSX, when I create a directory with tempfile.mkdtemp
+    # it is accessible to the user who runs the subprocess command.
+    # This is not the case for Travis for Python 2.7. Not sure why.
+    # Using just plain `tempfile.gettempdir()` is problematic because
+    # then we can't do something like `shutil.rmtree()` in the tear down
+    # because we'd instead need to know each file name that was created
+    # there.
+    # Making our own tempdir with plain old `os.mkdir()` is a safe
+    # compromise.
+
+    def rand_str(L):
+        pool = list('abcdefghijlkmnopqrstuvwxyz')
+        random.shuffle(pool)
+        return ''.join(pool[:L])
+
+    name = os.path.join(
+        os.path.dirname(__file__),
+        'tempdir-' + rand_str(10)
+    )
+    os.mkdir(name)
+    return name
+
+
 class TestOptimizingThumbnailBackend(TestCase):
 
     @classmethod
     def setUpClass(cls):
         super(TestOptimizingThumbnailBackend, cls).setUpClass()
-        # cls.tmp_directory = tempfile.mkdtemp()  # fails on travis
-        cls.tmp_directory = tempfile.gettempdir()
+        cls.tmp_directory = get_temp_dir()
         settings.MEDIA_ROOT = cls.tmp_directory
 
     @classmethod
     def tearDownClass(cls):
-        # shutil.rmtree(cls.tmp_directory)
         super(TestOptimizingThumbnailBackend, cls).tearDownClass()
+        shutil.rmtree(cls.tmp_directory)
 
     @mock.patch('optisorl.backend.logger')
     def test_create_thumbnail_with_pngquant_location(self, logger):
@@ -65,7 +90,7 @@ class TestOptimizingThumbnailBackend(TestCase):
             with open(sample_png_path, 'rb') as source:
                 source_image = default.engine.get_image(source)
             backend = OptimizingThumbnailBackend()
-            backend._create_thumbnail(
+            assert backend._create_thumbnail(
                 source_image,
                 '100x100',
                 OptimizingThumbnailBackend.default_options,
@@ -96,12 +121,13 @@ class TestOptimizingThumbnailBackend(TestCase):
             with open(sample_gif_path, 'rb') as source:
                 source_image = default.engine.get_image(source)
             backend = OptimizingThumbnailBackend()
-            backend._create_thumbnail(
+            assert backend._create_thumbnail(
                 source_image,
                 '100x100',
                 OptimizingThumbnailBackend.default_options,
                 thumbnail
             )
+
         destination = os.path.join(
             settings.MEDIA_ROOT,
             os.path.basename(sample_gif_path)
@@ -126,12 +152,13 @@ class TestOptimizingThumbnailBackend(TestCase):
             with open(sample_jpg_path, 'rb') as source:
                 source_image = default.engine.get_image(source)
             backend = OptimizingThumbnailBackend()
-            backend._create_thumbnail(
+            assert backend._create_thumbnail(
                 source_image,
                 '100x100',
                 OptimizingThumbnailBackend.default_options,
                 thumbnail
             )
+
         destination = os.path.join(
             settings.MEDIA_ROOT,
             os.path.basename(sample_jpg_path)
