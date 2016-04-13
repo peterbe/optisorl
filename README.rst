@@ -24,6 +24,16 @@ This package, is a pluggable backend to ``sorl-thumbnail`` that
 attempts to do a good job of optimizing the generated thumbnail just
 right after it has been written to disk.
 
+Installation
+------------
+
+First, simply `pip install optisorl`.
+
+Then add, in your Django settings::
+
+    THUMBNAIL_BACKEND = 'optisorl.backend.OptimizingThumbnailBackend'
+
+Then review the sections below about being prepared for PNGs, GIFs and JPEGs. 
 
 Optimizing PNGs
 ---------------
